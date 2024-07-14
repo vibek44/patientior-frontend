@@ -12,6 +12,7 @@ import PatientInfoPage from "./components/PatientInfoPage";
 
 const App = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
+  const [patient, setPatient]= useState<Patient>();
 
   useEffect(() => {
     void axios.get<void>(`${apiBaseUrl}/ping`);
@@ -24,10 +25,22 @@ const App = () => {
   }, []);
 
   const match=useMatch('/patients/:id');
-  const patient=match 
+
+  useEffect(()=>{
+    const fetchPatientDetail=async()=>{
+      if( match && typeof match.params.id==='string'){
+        const patient=await patientService.getPatient(match.params.id);
+        setPatient(patient);
+      }
+       
+    };
+    void fetchPatientDetail();
+  },[ match ]);
+  
+  /*const patient=match 
     ? patients.find((patObj:Patient)=>patObj.id===match.params.id)
     : null;
-  
+  */
   return (
     <div className="App">
      
