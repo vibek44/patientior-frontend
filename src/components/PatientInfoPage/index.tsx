@@ -9,6 +9,8 @@ interface patientProps{
 }
 
 const  PatientInfoPage =({patient}:patientProps)=>{
+  //console.log(patient);
+  
   if(!patient)return null;
   return(
     <>
@@ -25,6 +27,15 @@ const  PatientInfoPage =({patient}:patientProps)=>{
       
       <p>ssh: {patient.ssn}</p>
       <p>occupation: {patient.occupation}</p>
+      <b>entries</b>
+      { patient.entries.map(el=>{
+        return (
+          <div key={el.id}>
+          <p >{el.date} {el.description}</p>
+          {el.diagnosisCodes?.map(el=><li key={el}>{el}</li>)}
+          </div>
+        );
+      })}
     </>
   );
 };
